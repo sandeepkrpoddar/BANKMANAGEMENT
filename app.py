@@ -11,15 +11,15 @@ st.set_page_config(
 
 st.title("🏦 Simple Banking System")
 
-
+# Sidebar Menu
 menu = [
     "Create Account",
     "Deposit",
     "Withdraw",
     "Check Details",
     "Delete Account",
+    "Update Account",
     "Transaction History"
-
 ]
 
 choice = st.sidebar.selectbox(
@@ -27,7 +27,7 @@ choice = st.sidebar.selectbox(
     menu
 )
 
-# ---------------- CREATE ----------------
+# ---------------- CREATE ACCOUNT ----------------
 
 if choice == "Create Account":
 
@@ -68,7 +68,7 @@ if choice == "Create Account":
             if isinstance(result, dict):
 
                 st.success(
-                    "Account Created Successfully"
+                    "Account Created Successfully ✅"
                 )
 
                 st.write(
@@ -159,7 +159,7 @@ elif choice == "Withdraw":
             else:
                 st.error(result)
 
-# ---------------- DETAILS ----------------
+# ---------------- CHECK DETAILS ----------------
 
 elif choice == "Check Details":
 
@@ -190,7 +190,7 @@ elif choice == "Check Details":
             if user:
 
                 st.success(
-                    "Account Found"
+                    "Account Found ✅"
                 )
 
                 st.json(user)
@@ -199,47 +199,8 @@ elif choice == "Check Details":
                 st.error(
                     "User Not Found"
                 )
-# ---------------- WITHDRAW ----------------
 
-elif choice == "Withdraw":
-
-    st.subheader("Withdraw Money")
-
-    account = st.text_input(
-        "Account Number"
-    )
-
-    pin = st.text_input(
-        "PIN",
-        type="password"
-    )
-
-    amount = st.number_input(
-        "Amount",
-        min_value=1
-    )
-
-    if st.button("Withdraw"):
-
-        if not pin.isdigit():
-
-            st.error("Invalid PIN")
-
-        else:
-
-            result = bank.withdraw(
-                account,
-                int(pin),
-                amount
-            )
-
-            if "Successful" in result:
-                st.success(result)
-
-            else:
-                st.error(result)
-
-# ---------------- delete ----------------
+# ---------------- DELETE ACCOUNT ----------------
 
 elif choice == "Delete Account":
 
@@ -273,7 +234,7 @@ elif choice == "Delete Account":
             else:
                 st.error(result)
 
-# ---------------- update ----------------
+# ---------------- UPDATE ACCOUNT ----------------
 
 elif choice == "Update Account":
 
@@ -317,46 +278,13 @@ elif choice == "Update Account":
             else:
                 st.error(result)
 
-    account = st.text_input(
-        "Account Number"
-    )
-
-    pin = st.text_input(
-        "PIN",
-        type="password"
-    )
-
-    if st.button("Check Details"):
-
-        if not pin.isdigit():
-
-            st.error("Invalid PIN")
-
-        else:
-
-            user = bank.get_details(
-                account,
-                int(pin)
-            )
-
-            if user:
-
-                st.success(
-                    "Account Found"
-                )
-
-                st.json(user)
-
-            else:
-                st.error(
-                    "User Not Found"
-                )                
-
-
+# ---------------- TRANSACTION HISTORY ----------------
 
 elif choice == "Transaction History":
 
-    st.subheader("Transaction History")
+    st.subheader(
+        "Transaction History"
+    )
 
     account = st.text_input(
         "Account Number"
@@ -367,7 +295,9 @@ elif choice == "Transaction History":
         type="password"
     )
 
-    if st.button("View History"):
+    if st.button(
+        "View History"
+    ):
 
         if pin.isdigit():
 
@@ -380,12 +310,22 @@ elif choice == "Transaction History":
 
             if transactions:
 
-                st.write(transactions)
+                st.success(
+                    "Transactions Found ✅"
+                )
+
+                st.table(
+                    transactions
+                )
 
             else:
+
                 st.error(
-                    "No transactions found"
+                    "No Transactions Found"
                 )
 
         else:
-            st.error("Invalid PIN")
+
+            st.error(
+                "Invalid PIN"
+            )
