@@ -1,1 +1,11 @@
-[]
+[
+    {
+        "name": "abc",
+        "age": 19,
+        "email": "abc@gmail.com",
+        "pin": 7474,
+        "accountNo": "ICE2EA9R",
+        "balance": 0,
+        "transactions": []
+    }
+]
